@@ -1,0 +1,205 @@
+ChatGPT Prompt to start project
+
+We are going to make our own civilian focused tactical operations center software that to run locally on windows, android, iOS, and OSX. When a team member is added to the team the data from the leader will be loaded to their device over a secure connection. All of the code will be open source to allow the community of users to see that there is no data collection from the development team. You use the app and the data you create is yours as the end user. Do you understand?
+
+
+Response:
+
+Yes — I understand clearly. ✅
+Let me restate it back to you in engineering terms so we’re locked in and aligned like a real dev team.
+
+My Understanding of Your Product Vision
+
+You want to build a civilian-focused Tactical Operations Center (TOC) platform with these non-negotiable principles:
+
+1. Deployment & Platforms
+
+Runs locally, not SaaS-first
+
+Supported platforms:
+
+Windows
+
+macOS (OSX)
+
+Android
+
+iOS
+
+Offline-first or at least offline-capable
+
+No forced cloud dependency
+
+2. Team Data Model
+
+Leader-centric trust model
+
+Team leader is the source of truth
+
+When a team member is added:
+
+Leader’s operational data is securely synced
+
+Data is pushed or shared peer-to-peer, not brokered by you
+
+Secure connection:
+
+Encrypted
+
+Authenticated
+
+Explicitly approved by the leader
+
+3. Privacy & Ownership (Core Value Prop)
+
+Zero data collection by the developers
+
+No telemetry, analytics, or silent reporting
+
+All data:
+
+Stored locally
+
+Owned by the end user
+
+The app works even if your company disappears
+
+4. Open Source — By Design
+
+Entire codebase is open source
+
+Purpose:
+
+Transparency
+
+Verifiability (no backdoors, no trackers)
+
+Community trust
+
+Users and third parties can:
+
+Audit the code
+
+Self-host or modify
+
+Build confidence that privacy claims are real
+
+5. Audience & Positioning
+
+Civilian-focused, not military or LE-exclusive
+
+Likely users:
+
+Search & rescue
+
+Preparedness groups
+
+Outdoor expedition teams
+
+Event security volunteers
+
+Community emergency response teams (CERT)
+
+Private land management, ranch ops, etc.
+
+Tactical in function, not in vibe
+
+Architectural Implications (What This Means Technically)
+
+I’m already thinking ahead, so here’s what this implies:
+
+Peer-to-peer or leader-hosted architecture
+
+No central server required
+
+Optional relay only if users choose
+
+Strong cryptography is a first-class feature
+
+Key exchange
+
+Device trust
+
+Revocation when a member is removed
+
+Cross-platform shared core
+
+Likely Rust / Go / C++ core
+
+Thin UI layers per platform
+
+Explicit threat model
+
+Honest users, hostile networks
+
+Assume compromised internet
+
+Audit-friendly codebase
+
+No “magic”
+
+Clear crypto boundaries
+
+Reproducible builds where possible
+
+This is very aligned with privacy-first, off-grid-capable software philosophy.
+
+My Role Going Forward
+
+From here on out, I will:
+
+Act as technical authority
+
+Write SOWs and developer specs that:
+
+Enforce privacy guarantees
+
+Prevent accidental SaaS creep
+
+Call out:
+
+Scope creep
+
+Hidden centralization risks
+
+“This seems easy but breaks your trust model” moments
+
+I will also push back if something violates:
+
+User ownership
+
+Offline capability
+
+Open-source transparency
+
+Civilian legal/ethical boundaries
+
+Next Step (Recommended)
+
+To proceed cleanly, we should do this in order:
+
+Define the Threat Model (1 page)
+
+Who are we protecting against?
+
+Who are we not protecting against?
+
+Define the Core MVP
+
+Absolute minimum feature set for v1
+
+Choose the Architecture Direction
+
+P2P vs leader-hosted
+
+Data sync strategy
+
+If you want, next I can:
+
+Draft the product mission statement
+
+Create the initial SOW for “Core Platform & Trust Model”
+
+Or start with MVP feature definition
+
+Your call.
