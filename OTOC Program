@@ -3,104 +3,70 @@ use serde::{Deserialize, Serialize};
 use sha2::{Sha256, Digest};
 use ed25519_dalek::{Verifier, VerifyingKey, Signature as Ed25519Signature};
 
+//
 // Core type wrappers
+//
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct DeviceID([u8; 32]);
 
 impl DeviceID {
-    pub fn new(bytes: [u8; 32]) -> Self {
-        Self(bytes)
-    }
-
-    pub fn as_bytes(&self) -> &[u8; 32] {
-        &self.0
-    }
+    pub fn new(bytes: [u8; 32]) -> Self { Self(bytes) }
+    pub fn as_bytes(&self) -> &[u8; 32] { &self.0 }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct UserID([u8; 32]);
 
 impl UserID {
-    pub fn new(bytes: [u8; 32]) -> Self {
-        Self(bytes)
-    }
-
-    pub fn as_bytes(&self) -> &[u8; 32] {
-        &self.0
-    }
+    pub fn new(bytes: [u8; 32]) -> Self { Self(bytes) }
+    pub fn as_bytes(&self) -> &[u8; 32] { &self.0 }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct TeamID([u8; 32]);
 
 impl TeamID {
-    pub fn new(bytes: [u8; 32]) -> Self {
-        Self(bytes)
-    }
-
-    pub fn as_bytes(&self) -> &[u8; 32] {
-        &self.0
-    }
-
-    pub fn is_zero(&self) -> bool {
-        self.0.iter().all(|&b| b == 0)
-    }
+    pub fn new(bytes: [u8; 32]) -> Self { Self(bytes) }
+    pub fn as_bytes(&self) -> &[u8; 32] { &self.0 }
+    pub fn is_zero(&self) -> bool { self.0.iter().all(|&b| b == 0) }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct EventID([u8; 32]);
 
 impl EventID {
-    pub fn new(bytes: [u8; 32]) -> Self {
-        Self(bytes)
-    }
-
-    pub fn as_bytes(&self) -> &[u8; 32] {
-        &self.0
-    }
+    pub fn new(bytes: [u8; 32]) -> Self { Self(bytes) }
+    pub fn as_bytes(&self) -> &[u8; 32] { &self.0 }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct LogicalClock(u64);
 
 impl LogicalClock {
-    pub fn new(value: u64) -> Self {
-        Self(value)
-    }
-
-    pub fn value(&self) -> u64 {
-        self.0
-    }
+    pub fn new(value: u64) -> Self { Self(value) }
+    pub fn value(&self) -> u64 { self.0 }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Signature([u8; 64]);
 
 impl Signature {
-    pub fn new(bytes: [u8; 64]) -> Self {
-        Self(bytes)
-    }
-
-    pub fn as_bytes(&self) -> &[u8; 64] {
-        &self.0
-    }
+    pub fn new(bytes: [u8; 64]) -> Self { Self(bytes) }
+    pub fn as_bytes(&self) -> &[u8; 64] { &self.0 }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct ConflictID([u8; 32]);
 
 impl ConflictID {
-    pub fn new(bytes: [u8; 32]) -> Self {
-        Self(bytes)
-    }
-
-    pub fn as_bytes(&self) -> &[u8; 32] {
-        &self.0
-    }
+    pub fn new(bytes: [u8; 32]) -> Self { Self(bytes) }
+    pub fn as_bytes(&self) -> &[u8; 32] { &self.0 }
 }
 
-// Event payload types
+//
+// Event payloads
+//
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "type")]
@@ -136,14 +102,10 @@ pub struct GenesisEventData {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct AddMemberData {
-    pub user_id: UserID,
-}
+pub struct AddMemberData { pub user_id: UserID }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct RemoveMemberData {
-    pub user_id: UserID,
-}
+pub struct RemoveMemberData { pub user_id: UserID }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct BindDeviceToUserData {
@@ -153,29 +115,19 @@ pub struct BindDeviceToUserData {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct PromoteLeaderData {
-    pub user_id: UserID,
-}
+pub struct PromoteLeaderData { pub user_id: UserID }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct DemoteLeaderData {
-    pub user_id: UserID,
-}
+pub struct DemoteLeaderData { pub user_id: UserID }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct RemoveLeaderData {
-    pub user_id: UserID,
-}
+pub struct RemoveLeaderData { pub user_id: UserID }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct RevokeDeviceData {
-    pub device_id: DeviceID,
-}
+pub struct RevokeDeviceData { pub device_id: DeviceID }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct CastVoteForLeaderData {
-    pub candidate_user_id: UserID,
-}
+pub struct CastVoteForLeaderData { pub candidate_user_id: UserID }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ResolveConflictData {
@@ -183,7 +135,9 @@ pub struct ResolveConflictData {
     pub resolution: Vec<u8>,
 }
 
-// Event structure
+//
+// Event
+//
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Event {
@@ -203,27 +157,35 @@ struct EventWithoutSignature {
 
 impl Event {
     pub fn canonical_bytes_without_signature(&self) -> Vec<u8> {
-        let event_without_sig = EventWithoutSignature {
+        use serde_cbor::ser::Serializer;
+        let stripped = EventWithoutSignature {
             author_device_id: self.author_device_id,
             logical_clock: self.logical_clock,
             payload: self.payload.clone(),
         };
 
-        serde_cbor::to_vec(&event_without_sig).expect("CBOR serialization must succeed")
+        let mut buf = Vec::new();
+        let mut serializer = Serializer::new(&mut buf);
+        serializer.self_describe(false);
+        serializer.canonical();
+        stripped.serialize(&mut serializer).unwrap();
+        buf
     }
 
     pub fn compute_event_id(&self) -> EventID {
-        let canonical_bytes = self.canonical_bytes_without_signature();
+        let bytes = self.canonical_bytes_without_signature();
         let mut hasher = Sha256::new();
-        hasher.update(&canonical_bytes);
-        let hash_result = hasher.finalize();
-        let mut hash_bytes = [0u8; 32];
-        hash_bytes.copy_from_slice(&hash_result);
-        EventID::new(hash_bytes)
+        hasher.update(bytes);
+        let hash = hasher.finalize();
+        let mut out = [0u8; 32];
+        out.copy_from_slice(&hash);
+        EventID::new(out)
     }
 }
 
-// State structures
+//
+// State
+//
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MemberState {
@@ -231,6 +193,7 @@ pub struct MemberState {
     pub is_active: bool,
     pub is_leader: bool,
     pub devices: BTreeMap<DeviceID, ()>,
+    pub last_vote_clock: Option<LogicalClock>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -244,20 +207,11 @@ pub struct DeviceState {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct TeamState {
-    pub team_id: TeamID,
-    pub members: BTreeMap<UserID, MemberState>,
-    pub devices: BTreeMap<DeviceID, DeviceState>,
-    pub is_leaderless: bool,
-    pub active_votes: BTreeMap<UserID, VoteRecord>,
-    pub conflicted_objects: BTreeMap<ConflictID, ConflictedObject>,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct VoteRecord {
     pub voter_user_id: UserID,
     pub candidate_user_id: UserID,
     pub vote_event_id: EventID,
+    pub clock: LogicalClock,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -266,612 +220,278 @@ pub struct ConflictedObject {
     pub description: Vec<u8>,
 }
 
-// Append-only log trait
-
-pub trait AppendOnlyLog {
-    fn append(&mut self, event: Event) -> Result<(), AppendError>;
-    fn get_all_events(&self) -> Result<Vec<Event>, LogReadError>;
-    fn get_events_after(&self, clock: LogicalClock) -> Result<Vec<Event>, LogReadError>;
-}
-
-// Error types
-
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum AppendError {
+pub struct TeamState {
+    pub team_id: TeamID,
+    pub members: BTreeMap<UserID, MemberState>,
+    pub devices: BTreeMap<DeviceID, DeviceState>,
+    pub is_leaderless: bool,
+    pub active_votes: BTreeMap<UserID, VoteRecord>,
+    pub conflicted_objects: BTreeMap<ConflictID, ConflictedObject>,
+    pub seen_event_ids: BTreeMap<EventID, ()>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum LogReadError {
+impl TeamState {
+    pub fn new_empty() -> Self {
+        Self {
+            team_id: TeamID([0u8; 32]),
+            members: BTreeMap::new(),
+            devices: BTreeMap::new(),
+            is_leaderless: true,
+            active_votes: BTreeMap::new(),
+            conflicted_objects: BTreeMap::new(),
+            seen_event_ids: BTreeMap::new(),
+        }
+    }
+
+    pub fn update_leaderless_status(&mut self) {
+        self.is_leaderless = !self.members.values().any(|m| m.is_leader && m.is_active);
+    }
+
+    pub fn tally_leader_votes(&mut self) {
+        let n = self.members.values().filter(|m| m.is_active).count();
+        if n == 0 { return; }
+
+        let threshold = (n / 2) + 1;
+        let mut counts: BTreeMap<UserID, usize> = BTreeMap::new();
+        
+        for vote in self.active_votes.values() {
+            if let Some(member) = self.members.get(&vote.candidate_user_id) {
+                if member.is_active {
+                    *counts.entry(vote.candidate_user_id).or_insert(0) += 1;
+                }
+            }
+        }
+
+        if let Some((&winner, _)) = counts.iter().find(|&(_, &count)| count >= threshold) {
+            if let Some(member) = self.members.get_mut(&winner) {
+                member.is_leader = true;
+                self.is_leaderless = false;
+                self.active_votes.clear();
+            }
+        }
+    }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum ValidationError {
-    InvalidSignature,
-    InvalidEventID,
-    ClockNotMonotonic,
-    DeviceRevoked,
-    DeviceNotBound,
-    InsufficientAuthority,
-    UnknownDevice,
-    InvalidGenesisEvent,
-    CandidateNotFound,
-    CandidateInactive,
-    DeviceIDMismatch,
-    MemberInactive,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum ReplayError {
-    TeamStateNotEmpty,
-    DuplicateGenesis,
-    MemberNotFound,
-    DeviceNotFound,
-    ConflictNotFound,
-    InvalidGenesisState,
-    ElectionCandidateNotActive,
-    VoteFromInactiveMember,
-    InvariantViolation,
-    DeviceAlreadyBound,
-    DeviceRevoked,
-    PublicKeyMismatch,
-    DeviceIDMismatch,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum GovernanceError {
-}
-
-// Utility functions
+//
+// Utility & Validation
+//
 
 pub fn device_id_from_public_key(pubkey: &[u8; 32]) -> DeviceID {
     let mut hasher = Sha256::new();
     hasher.update(pubkey);
-    let hash_result = hasher.finalize();
-    let mut hash_bytes = [0u8; 32];
-    hash_bytes.copy_from_slice(&hash_result);
-    DeviceID::new(hash_bytes)
+    let hash = hasher.finalize();
+    let mut out = [0u8; 32];
+    out.copy_from_slice(&hash);
+    DeviceID::new(out)
 }
 
-pub fn sort_events(events: &mut Vec<Event>) {
-    events.sort_by(|a, b| {
-        match a.logical_clock.cmp(&b.logical_clock) {
-            std::cmp::Ordering::Equal => {
-                a.event_id.as_bytes().cmp(b.event_id.as_bytes())
-            }
-            other => other,
-        }
-    });
+#[derive(Debug)]
+pub enum ValidationError {
+    InvalidEventID,
+    InvalidSignature,
+    UnknownDevice,
+    ClockNotMonotonic,
+    DeviceRevoked,
+    UnauthorizedAction,
+    AlreadyInitialized,
 }
-
-// Validation implementation
 
 pub fn validate_event(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
-    validate_event_id(event)?;
-    validate_signature(event, team_state)?;
-    validate_clock_monotonicity(event, team_state)?;
-    validate_device_not_revoked(event, team_state)?;
-    validate_authority(event, team_state)?;
-    Ok(())
-}
-
-fn validate_event_id(event: &Event) -> Result<(), ValidationError> {
-    let computed_id = event.compute_event_id();
-    if computed_id != event.event_id {
+    if event.compute_event_id() != event.event_id {
         return Err(ValidationError::InvalidEventID);
     }
-    Ok(())
-}
-
-fn validate_signature(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
-    let public_key_bytes = if let EventPayload::GenesisEvent(data) = &event.payload {
-        &data.founding_device_public_key
-    } else {
-        let device_state = team_state.devices.get(&event.author_device_id)
-            .ok_or(ValidationError::UnknownDevice)?;
-        &device_state.public_key
-    };
-    
-    let expected_device_id = device_id_from_public_key(public_key_bytes);
-    if expected_device_id != event.author_device_id {
-        return Err(ValidationError::DeviceIDMismatch);
-    }
-    
-    let verifying_key = VerifyingKey::from_bytes(public_key_bytes)
-        .map_err(|_| ValidationError::InvalidSignature)?;
-    
-    let signature_bytes = event.signature.as_bytes();
-    let ed25519_sig = Ed25519Signature::from_bytes(signature_bytes);
-    
-    let canonical_bytes = event.canonical_bytes_without_signature();
-    
-    verifying_key
-        .verify(&canonical_bytes, &ed25519_sig)
-        .map_err(|_| ValidationError::InvalidSignature)?;
-    
-    Ok(())
-}
-
-fn validate_clock_monotonicity(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
-    if let EventPayload::GenesisEvent(_) = event.payload {
-        return Ok(());
-    }
-    
-    if let Some(device_state) = team_state.devices.get(&event.author_device_id) {
-        if event.logical_clock.value() <= device_state.last_clock.value() {
-            return Err(ValidationError::ClockNotMonotonic);
-        }
-    }
-    
-    Ok(())
-}
-
-fn validate_device_not_revoked(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
-    if let EventPayload::GenesisEvent(_) = event.payload {
-        return Ok(());
-    }
-    
-    if let Some(device_state) = team_state.devices.get(&event.author_device_id) {
-        if device_state.is_revoked {
-            if let Some(revoked_at_clock) = device_state.revoked_at_clock {
-                if event.logical_clock > revoked_at_clock {
-                    return Err(ValidationError::DeviceRevoked);
-                }
-            } else {
-                return Err(ValidationError::DeviceRevoked);
-            }
-        }
-    }
-    
+    validate_authority(event, team_state)?;
+    validate_signature(event, team_state)?;
+    validate_device_status(event, team_state)?;
     Ok(())
 }
 
 fn validate_authority(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
     match &event.payload {
+        EventPayload::GenesisEvent(_) => {
+            if !team_state.team_id.is_zero() { return Err(ValidationError::AlreadyInitialized); }
+        }
+        _ => {
+            let device = team_state.devices.get(&event.author_device_id).ok_or(ValidationError::UnknownDevice)?;
+            let user_id = device.user_id.ok_or(ValidationError::UnauthorizedAction)?;
+            let member = team_state.members.get(&user_id).ok_or(ValidationError::UnauthorizedAction)?;
+
+            if !member.is_active { return Err(ValidationError::UnauthorizedAction); }
+
+            match &event.payload {
+                EventPayload::AddMember(_) | EventPayload::RemoveMember(_) |
+                EventPayload::PromoteLeader(_) | EventPayload::DemoteLeader(_) |
+                EventPayload::RemoveLeader(_) | EventPayload::RevokeDevice(_) |
+                EventPayload::ResolveConflict(_) => {
+                    if !member.is_leader { return Err(ValidationError::UnauthorizedAction); }
+                },
+                EventPayload::CastVoteForLeader(_) => {
+                    if let Some(last_clock) = member.last_vote_clock {
+                        if event.logical_clock.value() <= last_clock.value() {
+                            return Err(ValidationError::ClockNotMonotonic);
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+    Ok(())
+}
+
+fn validate_signature(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
+    let public_key = match &event.payload {
         EventPayload::GenesisEvent(data) => {
-            if event.author_device_id != data.founding_device_id {
-                return Err(ValidationError::InsufficientAuthority);
+            let expected_id = device_id_from_public_key(&data.founding_device_public_key);
+            if expected_id != data.founding_device_id {
+                return Err(ValidationError::InvalidSignature);
             }
-            if !team_state.team_id.is_zero() {
-                return Err(ValidationError::InvalidGenesisEvent);
-            }
-            if !team_state.members.is_empty() || !team_state.devices.is_empty() {
-                return Err(ValidationError::InvalidGenesisEvent);
-            }
-            Ok(())
+            &data.founding_device_public_key
         }
-        EventPayload::AddMember(_) => {
-            validate_leader_authority(event, team_state)
-        }
-        EventPayload::RemoveMember(_) => {
-            validate_leader_authority(event, team_state)
-        }
-        EventPayload::BindDeviceToUser(data) => {
-            if event.author_device_id != data.device_id {
-                return Err(ValidationError::InsufficientAuthority);
-            }
-            let expected_device_id = device_id_from_public_key(&data.device_public_key);
-            if expected_device_id != data.device_id {
-                return Err(ValidationError::DeviceIDMismatch);
-            }
-            let member = team_state.members.get(&data.user_id)
-                .ok_or(ValidationError::InsufficientAuthority)?;
-            if !member.is_active {
-                return Err(ValidationError::MemberInactive);
-            }
-            Ok(())
-        }
-        EventPayload::PromoteLeader(_) => {
-            validate_leader_authority(event, team_state)
-        }
-        EventPayload::DemoteLeader(_) => {
-            validate_leader_authority(event, team_state)
-        }
-        EventPayload::RemoveLeader(_) => {
-            validate_leader_authority(event, team_state)
-        }
-        EventPayload::RevokeDevice(_) => {
-            validate_leader_authority(event, team_state)
-        }
-        EventPayload::CastVoteForLeader(data) => {
-            let candidate = team_state.members.get(&data.candidate_user_id)
-                .ok_or(ValidationError::CandidateNotFound)?;
-            if !candidate.is_active {
-                return Err(ValidationError::CandidateInactive);
-            }
-            validate_member_authority(event, team_state)
-        }
-        EventPayload::ResolveConflict(_) => {
-            validate_leader_authority(event, team_state)
-        }
-    }
-}
+        _ => &team_state.devices.get(&event.author_device_id).ok_or(ValidationError::UnknownDevice)?.public_key,
+    };
 
-fn validate_leader_authority(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
-    let device_state = team_state.devices.get(&event.author_device_id)
-        .ok_or(ValidationError::UnknownDevice)?;
-    
-    let user_id = device_state.user_id
-        .ok_or(ValidationError::DeviceNotBound)?;
-    
-    let member_state = team_state.members.get(&user_id)
-        .ok_or(ValidationError::InsufficientAuthority)?;
-    
-    if !member_state.is_leader {
-        return Err(ValidationError::InsufficientAuthority);
-    }
-    
-    if !member_state.is_active {
-        return Err(ValidationError::InsufficientAuthority);
-    }
-    
+    let verifying_key = VerifyingKey::from_bytes(public_key).map_err(|_| ValidationError::InvalidSignature)?;
+    let sig = Ed25519Signature::from_bytes(event.signature.as_bytes());
+
+    verifying_key.verify(&event.canonical_bytes_without_signature(), &sig)
+        .map_err(|_| ValidationError::InvalidSignature)?;
     Ok(())
 }
 
-fn validate_member_authority(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
-    let device_state = team_state.devices.get(&event.author_device_id)
-        .ok_or(ValidationError::UnknownDevice)?;
-    
-    let user_id = device_state.user_id
-        .ok_or(ValidationError::DeviceNotBound)?;
-    
-    let member_state = team_state.members.get(&user_id)
-        .ok_or(ValidationError::InsufficientAuthority)?;
-    
-    if !member_state.is_active {
-        return Err(ValidationError::InsufficientAuthority);
+fn validate_device_status(event: &Event, team_state: &TeamState) -> Result<(), ValidationError> {
+    if let Some(device) = team_state.devices.get(&event.author_device_id) {
+        if device.is_revoked { return Err(ValidationError::DeviceRevoked); }
+        if event.logical_clock.value() <= device.last_clock.value() {
+            return Err(ValidationError::ClockNotMonotonic);
+        }
     }
-    
     Ok(())
 }
 
-// Replay implementation
+//
+// Application Logic
+//
 
-pub fn apply_event(
-    event: &Event,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
+#[derive(Debug)]
+pub enum ReplayError {
+    ValidationFailed(ValidationError),
+    DuplicateEvent,
+    InvariantViolation,
+}
+
+pub fn apply_event(event: &Event, team_state: &mut TeamState) -> Result<(), ReplayError> {
+    validate_event(event, team_state).map_err(ReplayError::ValidationFailed)?;
+
+    if team_state.seen_event_ids.contains_key(&event.event_id) {
+        return Err(ReplayError::DuplicateEvent);
+    }
+    team_state.seen_event_ids.insert(event.event_id, ());
+
     match &event.payload {
         EventPayload::GenesisEvent(data) => apply_genesis(event, data, team_state)?,
-        EventPayload::AddMember(data) => apply_add_member(event, data, team_state)?,
-        EventPayload::RemoveMember(data) => apply_remove_member(event, data, team_state)?,
-        EventPayload::BindDeviceToUser(data) => apply_bind_device_to_user(event, data, team_state)?,
-        EventPayload::PromoteLeader(data) => apply_promote_leader(event, data, team_state)?,
-        EventPayload::DemoteLeader(data) => apply_demote_leader(event, data, team_state)?,
-        EventPayload::RemoveLeader(data) => apply_remove_leader(event, data, team_state)?,
-        EventPayload::RevokeDevice(data) => apply_revoke_device(event, data, team_state)?,
-        EventPayload::CastVoteForLeader(data) => apply_cast_vote_for_leader(event, data, team_state)?,
-        EventPayload::ResolveConflict(data) => apply_resolve_conflict(event, data, team_state)?,
+        EventPayload::AddMember(data) => apply_add_member(data, team_state)?,
+        EventPayload::RemoveMember(data) => apply_remove_member(data, team_state)?,
+        EventPayload::BindDeviceToUser(data) => apply_bind_device(event, data, team_state)?,
+        EventPayload::PromoteLeader(data) => promote_leader(data, team_state)?,
+        EventPayload::DemoteLeader(data) => demote_leader(data, team_state)?,
+        EventPayload::RemoveLeader(data) => remove_leader(data, team_state)?,
+        EventPayload::RevokeDevice(data) => revoke_device(event, data, team_state)?,
+        EventPayload::CastVoteForLeader(data) => cast_vote(event, data, team_state)?,
+        EventPayload::ResolveConflict(data) => resolve_conflict(data, team_state)?,
     }
-    
+
     if let Some(device) = team_state.devices.get_mut(&event.author_device_id) {
-        if event.logical_clock > device.last_clock {
-            device.last_clock = event.logical_clock;
-        }
+        device.last_clock = event.logical_clock;
     }
-    
-    enforce_invariants(team_state)?;
+
     Ok(())
 }
 
-fn apply_genesis(
-    event: &Event,
-    data: &GenesisEventData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    if !team_state.team_id.is_zero()
-        || !team_state.members.is_empty() 
-        || !team_state.devices.is_empty() 
-        || !team_state.active_votes.is_empty() 
-        || !team_state.conflicted_objects.is_empty() {
-        return Err(ReplayError::InvalidGenesisState);
-    }
-
-    let expected_device_id = device_id_from_public_key(&data.founding_device_public_key);
-    if expected_device_id != data.founding_device_id {
-        return Err(ReplayError::DeviceIDMismatch);
-    }
-
+fn apply_genesis(event: &Event, data: &GenesisEventData, team_state: &mut TeamState) -> Result<(), ReplayError> {
     team_state.team_id = data.team_id;
-    
-    let mut founding_devices = BTreeMap::new();
-    founding_devices.insert(data.founding_device_id, ());
-    
-    let founding_member = MemberState {
-        user_id: data.founding_user_id,
-        is_active: true,
-        is_leader: true,
-        devices: founding_devices,
-    };
-    
-    team_state.members.insert(data.founding_user_id, founding_member);
-    
-    let founding_device = DeviceState {
+    team_state.devices.insert(data.founding_device_id, DeviceState {
         device_id: data.founding_device_id,
         public_key: data.founding_device_public_key,
         user_id: Some(data.founding_user_id),
         is_revoked: false,
         revoked_at_clock: None,
         last_clock: event.logical_clock,
-    };
-    
-    team_state.devices.insert(data.founding_device_id, founding_device);
+    });
+    team_state.members.insert(data.founding_user_id, MemberState {
+        user_id: data.founding_user_id,
+        is_active: true,
+        is_leader: true,
+        devices: {
+            let mut m = BTreeMap::new();
+            m.insert(data.founding_device_id, ());
+            m
+        },
+        last_vote_clock: None,
+    });
     team_state.is_leaderless = false;
-    
     Ok(())
 }
 
-fn apply_add_member(
-    event: &Event,
-    data: &AddMemberData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    team_state.members.entry(data.user_id).or_insert_with(|| MemberState {
+fn apply_add_member(data: &AddMemberData, team_state: &mut TeamState) -> Result<(), ReplayError> {
+    team_state.members.entry(data.user_id).or_insert(MemberState {
         user_id: data.user_id,
         is_active: true,
         is_leader: false,
         devices: BTreeMap::new(),
+        last_vote_clock: None,
     });
-    
+    Ok(())
+}
+
+fn apply_remove_member(data: &RemoveMemberData, team_state: &mut TeamState) -> Result<(), ReplayError> {
     if let Some(member) = team_state.members.get_mut(&data.user_id) {
-        member.is_active = true;
-    }
-    
-    Ok(())
-}
-
-fn apply_remove_member(
-    event: &Event,
-    data: &RemoveMemberData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    let member = team_state.members.get_mut(&data.user_id)
-        .ok_or(ReplayError::MemberNotFound)?;
-    
-    member.is_active = false;
-    
-    if member.is_leader {
+        member.is_active = false;
         member.is_leader = false;
+        for dev_id in member.devices.keys() {
+            if let Some(dev) = team_state.devices.get_mut(dev_id) {
+                dev.is_revoked = true;
+            }
+        }
+        team_state.active_votes.remove(&data.user_id);
+        team_state.active_votes.retain(|_, v| v.candidate_user_id != data.user_id);
     }
-    
-    team_state.active_votes.retain(|voter_id, vote| {
-        *voter_id != data.user_id && vote.candidate_user_id != data.user_id
-    });
-    
-    update_leaderless_status(team_state);
-    
+    team_state.update_leaderless_status();
     Ok(())
 }
 
-fn apply_bind_device_to_user(
-    event: &Event,
-    data: &BindDeviceToUserData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    let member = team_state.members.get_mut(&data.user_id)
-        .ok_or(ReplayError::MemberNotFound)?;
-    
-    let expected_device_id = device_id_from_public_key(&data.device_public_key);
-    if expected_device_id != data.device_id {
-        return Err(ReplayError::DeviceIDMismatch);
-    }
-    
-    if let Some(existing_device) = team_state.devices.get(&data.device_id) {
-        if let Some(revoked_at) = existing_device.revoked_at_clock {
-            if event.logical_clock > revoked_at {
-                return Err(ReplayError::DeviceRevoked);
-            }
-        }
-        if existing_device.is_revoked {
-            return Err(ReplayError::DeviceRevoked);
-        }
-        if existing_device.public_key != data.device_public_key {
-            return Err(ReplayError::PublicKeyMismatch);
-        }
-        if let Some(existing_user_id) = existing_device.user_id {
-            if existing_user_id != data.user_id {
-                return Err(ReplayError::DeviceAlreadyBound);
-            }
-        }
-    }
-    
-    let device = team_state.devices.entry(data.device_id).or_insert_with(|| DeviceState {
+fn apply_bind_device(event: &Event, data: &BindDeviceToUserData, team_state: &mut TeamState) -> Result<(), ReplayError> {
+    team_state.devices.insert(data.device_id, DeviceState {
         device_id: data.device_id,
         public_key: data.device_public_key,
-        user_id: None,
+        user_id: Some(data.user_id),
         is_revoked: false,
         revoked_at_clock: None,
-        last_clock: LogicalClock::new(0),
+        last_clock: event.logical_clock,
     });
-    
-    device.user_id = Some(data.user_id);
-    
-    member.devices.insert(data.device_id, ());
-    
+    if let Some(member) = team_state.members.get_mut(&data.user_id) {
+        member.devices.insert(data.device_id, ());
+    }
     Ok(())
 }
 
-fn apply_promote_leader(
-    event: &Event,
-    data: &PromoteLeaderData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    let member = team_state.members.get_mut(&data.user_id)
-        .ok_or(ReplayError::MemberNotFound)?;
-    
-    member.is_leader = true;
-    team_state.is_leaderless = false;
-    
+fn promote_leader(data: &PromoteLeaderData, team_state: &mut TeamState) -> Result<(), ReplayError> {
+    if let Some(member) = team_state.members.get_mut(&data.user_id) {
+        member.is_leader = true;
+    }
+    team_state.update_leaderless_status();
     Ok(())
 }
 
-fn apply_demote_leader(
-    event: &Event,
-    data: &DemoteLeaderData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    let member = team_state.members.get_mut(&data.user_id)
-        .ok_or(ReplayError::MemberNotFound)?;
-    
-    member.is_leader = false;
-    
-    update_leaderless_status(team_state);
-    
+fn demote_leader(data: &DemoteLeaderData, team_state: &mut TeamState) -> Result<(), ReplayError> {
+    if let Some(member) = team_state.members.get_mut(&data.user_id) {
+        member.is_leader = false;
+    }
+    team_state.update_leaderless_status();
     Ok(())
 }
 
-fn apply_remove_leader(
-    event: &Event,
-    data: &RemoveLeaderData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    let member = team_state.members.get_mut(&data.user_id)
-        .ok_or(ReplayError::MemberNotFound)?;
-    
-    member.is_leader = false;
-    
-    update_leaderless_status(team_state);
-    
-    Ok(())
-}
-
-fn apply_revoke_device(
-    event: &Event,
-    data: &RevokeDeviceData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    let device = team_state.devices.get_mut(&data.device_id)
-        .ok_or(ReplayError::DeviceNotFound)?;
-    
-    device.is_revoked = true;
-    device.revoked_at_clock = Some(event.logical_clock);
-    
-    Ok(())
-}
-
-fn apply_cast_vote_for_leader(
-    event: &Event,
-    data: &CastVoteForLeaderData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    let device_state = team_state.devices.get(&event.author_device_id)
-        .ok_or(ReplayError::DeviceNotFound)?;
-    
-    let voter_user_id = device_state.user_id
-        .ok_or(ReplayError::MemberNotFound)?;
-    
-    let vote_record = VoteRecord {
-        voter_user_id,
-        candidate_user_id: data.candidate_user_id,
-        vote_event_id: event.event_id,
-    };
-    
-    team_state.active_votes.insert(voter_user_id, vote_record);
-    
-    if team_state.is_leaderless {
-        check_and_finalize_election(team_state)?;
-    }
-    
-    Ok(())
-}
-
-fn apply_resolve_conflict(
-    event: &Event,
-    data: &ResolveConflictData,
-    team_state: &mut TeamState,
-) -> Result<(), ReplayError> {
-    if !team_state.conflicted_objects.contains_key(&data.conflict_id) {
-        return Err(ReplayError::ConflictNotFound);
-    }
-    
-    team_state.conflicted_objects.remove(&data.conflict_id);
-    
-    Ok(())
-}
-
-fn update_leaderless_status(team_state: &mut TeamState) {
-    team_state.is_leaderless = team_state.members.values().all(|m| {
-        !m.is_active || !m.is_leader
-    });
-}
-
-fn check_and_finalize_election(team_state: &mut TeamState) -> Result<(), ReplayError> {
-    let active_member_count = team_state.members.values()
-        .filter(|member| member.is_active)
-        .count();
-    
-    if active_member_count == 0 {
-        return Ok(());
-    }
-    
-    let majority_threshold = (active_member_count / 2) + 1;
-    
-    let mut eligible_candidates = BTreeMap::new();
-    for (user_id, member) in team_state.members.iter() {
-        if member.is_active && !member.is_leader {
-            eligible_candidates.insert(*user_id, ());
-        }
-    }
-    
-    let mut vote_counts: BTreeMap<UserID, usize> = BTreeMap::new();
-    
-    for vote in team_state.active_votes.values() {
-        if let Some(voter) = team_state.members.get(&vote.voter_user_id) {
-            if voter.is_active {
-                if eligible_candidates.contains_key(&vote.candidate_user_id) {
-                    *vote_counts.entry(vote.candidate_user_id).or_insert(0) += 1;
-                }
-            }
-        }
-    }
-    
-    for (candidate_id, vote_count) in vote_counts.iter() {
-        if *vote_count >= majority_threshold {
-            let candidate_member = team_state.members.get(candidate_id)
-                .ok_or(ReplayError::MemberNotFound)?;
-            
-            if !candidate_member.is_active {
-                return Err(ReplayError::ElectionCandidateNotActive);
-            }
-            
-            if let Some(candidate_member) = team_state.members.get_mut(candidate_id) {
-                candidate_member.is_leader = true;
-                team_state.is_leaderless = false;
-                team_state.active_votes.clear();
-                return Ok(());
-            }
-        }
-    }
-    
-    Ok(())
-}
-
-fn enforce_invariants(team_state: &TeamState) -> Result<(), ReplayError> {
-    for (user_id, member) in team_state.members.iter() {
-        if member.is_leader && !member.is_active {
-            return Err(ReplayError::InvariantViolation);
-        }
-    }
-    
-    let has_active_leader = team_state.members.values()
-        .any(|m| m.is_active && m.is_leader);
-    
-    if team_state.is_leaderless != !has_active_leader {
-        return Err(ReplayError::InvariantViolation);
-    }
-    
-    for device in team_state.devices.values() {
-        if let Some(user_id) = device.user_id {
-            if !team_state.members.contains_key(&user_id) {
-                return Err(ReplayError::InvariantViolation);
-            }
-        }
-    }
-    
-    for device in team_state.devices.values() {
-        if device.is_revoked && device.revoked_at_clock.is_none() {
-            return Err(ReplayError::InvariantViolation);
-        }
-    }
-    
-    Ok(())
-}
+fn remove_leader(data: &RemoveLeaderData, team_state: &mut TeamState) -> Result<(), ReplayError> {
+    if let Some(member) = team_state.members.get_mut(&data.user_id) {
+        member.is_leader = false;
