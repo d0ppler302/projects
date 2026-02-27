@@ -1,0 +1,163 @@
+1. Leadership Model
+
+Multiple team leaders can exist simultaneously
+No single “global admin”
+
+Leadership is:
+
+Scoped (per team)
+Explicitly granted
+Revocable
+
+2. Inter-Team Coordination
+
+Teams are independent by default
+
+Teams may:
+
+Establish explicit trust relationships with other teams
+Share only specific tasks / datasets
+Do so temporarily or persistently
+No automatic data visibility across teams
+
+Think:
+
+“Joint task force, not merged organizations.”
+
+3. Data Model: Decentralized + Zero Trust (Hard Requirement)
+What “Zero Trust” Means Here
+
+No device is trusted by default
+No leader is trusted globally
+No team is trusted implicitly
+
+Every action requires:
+
+Authentication
+Authorization
+Cryptographic proof
+
+Data Characteristics
+
+Data is:
+
+Locally stored
+Encrypted at rest
+Encrypted in transit
+
+No central server holding team state
+No global database
+
+4. Practical Architecture (This Is Important)
+
+This cannot be a traditional client-server app.
+What you’re describing maps best to:
+
+🔐 A Federated, Peer-to-Peer Trust Graph
+
+Core concepts:
+
+Identity
+Device-bound cryptographic identity
+Keypair generated locally
+Team
+Logical container
+Defined by a set of trusted identities + permissions
+
+Leader
+
+A role, not a god-mode account
+
+Granted via cryptographic capability
+
+Task
+
+Shareable object
+
+Can be selectively exposed across trust boundaries
+
+5. Example Flow (Concrete)
+Adding a Member
+
+Member generates local identity
+
+Leader approves via:
+
+QR code
+Out-of-band key exchange
+Leader issues capabilities, not raw access
+
+Member receives:
+
+Only team data they are authorized for
+Inter-Team Task Sharing
+
+Team A creates Task X
+
+Team A selects:
+
+Which team(s) to share with
+What fields are visible
+Duration of access
+
+Team B receives:
+
+A cryptographically signed task reference
+No access to Team A’s broader data
+Access expires or is revoked cleanly
+
+6. What This Forbids (Explicitly)
+
+To keep zero-trust honest, these are NOT allowed:
+
+❌ Global admin dashboards
+❌ Central identity provider you control
+❌ “Convenience” cloud sync by default
+❌ Silent metadata sharing
+❌ Auto-discovery of teams or users
+
+Everything is:
+
+Opt-in
+Explicit
+Verifiable
+
+7. Engineering Consequences (Good + Hard)
+Pros
+
+Extremely strong privacy guarantees
+Real community trust
+Hard to compromise at scale
+Legally safer (no data custody)
+
+Costs
+
+More complex sync logic
+More explicit UX steps
+Key management UX matters a lot
+Revocation must be designed carefully
+
+This is not a beginner system — but it is a defensible one.
+
+8. Next Deliverables I Recommend (In Order)
+
+To keep momentum without chaos, next I should produce:
+
+Option A — Architecture SOW (Recommended)
+
+Identity & key management
+Trust graph
+Sync protocol
+Revocation model
+
+Option B — MVP Feature SOW
+
+Teams
+Tasks
+Secure member onboarding
+Inter-team task sharing (limited)
+
+Option C — Threat Model Document
+
+What attacks we defend against
+What we explicitly do not
