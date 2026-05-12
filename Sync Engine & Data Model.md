@@ -1,12 +1,12 @@
 # Statement of Work (SOW)
 
-## Sync Engine & Data Model – Decentralized Civilian TOC Platform
+## Sync Engine & Data Model – Civilian OTFC Platform
 
 ---
 
 ## 1. Purpose
 
-This document defines the **data model, synchronization strategy, and conflict-resolution rules** for the decentralized civilian Tactical Operations Center (TOC) platform.
+This document defines the **data model, synchronization strategy, and conflict-resolution rules** for the decentralized civilian Open-Source Team Fusion Center (OTFC) platform.
 
 The intent is to eliminate ambiguity so that multiple developers (human or AI) implement **compatible, predictable, and secure synchronization behavior**, even under offline, low-bandwidth, and adversarial network conditions.
 
