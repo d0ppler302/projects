@@ -1,12 +1,12 @@
 # Statement of Work (SOW)
 
-## Transport Abstraction Layer (TAL) – Decentralized Civilian TOC Platform
+## Transport Abstraction Layer (TAL) – Civilian Open-Source TFC Platform
 
 ---
 
 ## 1. Purpose
 
-This SOW defines the **Transport Abstraction Layer (TAL)** for the decentralized civilian Tactical Operations Center (TOC) platform. TAL ensures that the **core sync engine and business logic are transport-agnostic**, enabling secure, reliable data synchronization over a variety of physical and network mediums, including constrained and offline environments.
+This SOW defines the **Transport Abstraction Layer (TAL)** for the decentralized civilian Open-Source Team Fusion Center (OTFC) platform. TAL ensures that the **core sync engine and business logic are transport-agnostic**, enabling secure, reliable data synchronization over a variety of physical and network mediums, including constrained and offline environments.
 
 The TAL SOW complements the Architecture SOW and Sync & Data Model SOW by providing clear interfaces and rules for transport implementation.
 
