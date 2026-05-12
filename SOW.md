@@ -2,13 +2,13 @@ Complete SOW
 
 # Statement of Work (SOW)
 
-## Architecture Design – Decentralized Civilian Tactical Operations Center (TOC)
+## Architecture Design – Civilian Open-Source Team Fusion Center (OTFC)
 
 ---
 
 ## 1. Purpose
 
-This document defines the **architecture, trust model, and non‑functional requirements** for a civilian‑focused Tactical Operations Center (TOC) software platform. The goal is to provide a **privacy‑preserving, decentralized, zero‑trust coordination system** that operates locally on user devices and enables secure collaboration between individuals, teams, and trusted external teams.
+This document defines the **architecture, trust model, and non‑functional requirements** for a civilian‑focused Open-Source Team Fusion Center (OTFC) software platform. The goal is to provide a **privacy‑preserving, decentralized, zero‑trust coordination system** that operates locally on user devices and enables secure collaboration between individuals, teams, and trusted external teams.
 
 This SOW is intended to guide senior developers and architects. Ambiguity should be treated as a defect.
 
